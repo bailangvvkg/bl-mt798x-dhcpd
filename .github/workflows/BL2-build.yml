@@ -176,8 +176,8 @@ jobs:
           cd bl-mt798x-dhcpd
           chmod +x ./build.sh
           chmod +x ./compile_atf.sh
-          # Use make build target
-          make build 2>&1
+          # Use make atf target (passes OC7981/OC7986 through to compile_atf.sh)
+          make atf 2>&1
           echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
 
