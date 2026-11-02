@@ -153,14 +153,15 @@ jobs:
             if [ -d "mt798x_atf/mt7981" ]; then
               echo "Enable mt7981 OC profile"
               shopt -s dotglob nullglob
-              cp -af mt798x_atf/mt7981/* mt798x_atf/ || true
+              mkdir -p mt798x_atf/normal
+              cp -af mt798x_atf/mt7981/* mt798x_atf/normal/ || true
             else
               echo "Warning: mt798x_atf/mt7981 not found, skipping"
             fi
             if [ -d "mt798x_atf/mt7986" ]; then
               echo "Enable mt7986 OC profile"
               shopt -s dotglob nullglob
-              cp -af mt798x_atf/mt7986/* mt798x_atf/ || true
+              cp -af mt798x_atf/mt7986/* mt798x_atf/normal/ || true
             else
               echo "Warning: mt798x_atf/mt7986 not found, skipping"
             fi
@@ -177,7 +178,11 @@ jobs:
           chmod +x ./build.sh
           chmod +x ./compile_atf.sh
           # Use make atf target (passes OC7981/OC7986 through to compile_atf.sh)
-          make atf 2>&1
+          if [ "$CONFIG_ATF_OC" = "true" ]; then
+            make atf CFG_SUBDIR=normal 2>&1
+          else
+            make atf 2>&1
+          fi
           echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
 
