@@ -42,6 +42,11 @@ on:
         required: false
         default: 'true'
         type: boolean
+      OC7986:
+        description: 'MT7986 OC ARMPLL freq 16-25 (empty = stock 2.0GHz)'
+        required: false
+        default: ''
+        type: string
 
 env:
   REPO_URL: ${{ github.event.inputs.REPO_URL }}
@@ -52,6 +57,7 @@ env:
   # Build configuration from inputs
   CONFIG_ATF_VERSION: ${{ github.event.inputs.ATF_VERSION || '2025' }}
   CONFIG_ATF_OC: ${{ github.event.inputs.ATF_OC || 'false' }}
+  OC7986: ${{ github.event.inputs.OC7986 || '' }}
 
 jobs:
   build-atf:
@@ -247,3 +253,4 @@ jobs:
           name: ${{ env.FILE_DATE }}-bl2-preloader
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
+
